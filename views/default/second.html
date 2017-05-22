@@ -1,0 +1,87 @@
+{{extend 'layout.html'}}
+{{
+if session.error=="":
+header = "Below are the differences"
+else:
+header= "Error"
+pass
+}}
+<h1> {{=header}}</h1>
+{{=session.error}}
+{{if session.error=="":}}
+<h3>Tables Present in First DB but not in Second</h3>
+{{if session.TableMisInProd != {}:}}
+{{for tables in session.TableMisInProd:}}
+{{=tables}}
+</br>
+{{for fields in session.TableMisInProd[tables]:}}
+{{=(fields[0] +' ' + fields[1]+' ' + fields[3])}}
+</br>
+{{pass}}
+{{pass}}
+{{else:}}
+NONE
+</br>
+{{pass}}
+</br>
+<h3>Tables Present in Second DB but not in First</h3>
+{{if session.TableMisInStage != {}:}}
+{{for tables in session.TableMisInStage:}}
+{{=tables}}
+</br>
+{{for fields in session.TableMisInStage[tables]:}}
+{{=(fields[0] +' ' + fields[1] +' ' + fields[3])}}
+</br>
+{{pass}}
+{{pass}}
+{{else:}}
+NONE
+</br>
+{{pass}}
+<h3>Fields In First DB but not in Second DB</h3>
+{{if session.FieldMisInProd!= {}:}}
+{{for tables in session.FieldMisInProd:}}
+{{=tables}}
+</br>
+{{for fields in session.FieldMisInProd[tables]:}}
+{{=("Field --- > "+fields)}}
+</br>
+{{pass}}
+{{pass}}
+{{else:}}
+NONE
+</br>
+{{pass}}
+</br>
+<h3>Fields In Second DB but not in First DB</h3>
+{{if session.FieldMisInStage != {}:}}
+{{for tables in session.FieldMisInStage:}}
+{{=tables}}
+</br>
+{{for fields in session.FieldMisInStage[tables]:}}
+{{=("Field --- > "+fields)}}
+</br>
+{{pass}}
+{{pass}}
+{{else:}}
+NONE
+</br>
+{{pass}}
+</br>
+<h3>Fields Which are different in second DB</h3>
+{{if session.DiffFieldType != {}:}}
+{{for tables in session.DiffFieldType:}}
+{{if session.DiffFieldType[tables] != []:}}
+{{=tables}}
+{{pass}}
+</br>
+{{for fields in session.DiffFieldType[tables]:}}
+{{=(fields[0] +' ' + fields[1]+' ' + fields[3])}}
+</br>
+{{pass}}
+{{pass}}
+{{else:}}
+NONE
+</br>
+{{pass}}
+{{pass}}
